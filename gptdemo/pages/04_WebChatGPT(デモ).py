@@ -10,9 +10,12 @@ from langchain.memory import ConversationBufferMemory
 import openai
 from typing import Any, Dict, List
 import os
+from dotenv import load_dotenv
 
-openai_api_key = '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'
-os.environ["OPENAI_API_KEY"]=openai_api_key
+# .envファイルの読み込み
+load_dotenv(os.path.join(os.path.dirname(__file__), '...', '.env'))
+
+openai_api_key=os.environ["OPENAI_API_KEY"]
 
 st.header("ChatGPT@２デジ")
 st.subheader("WebChatGPT(デモ)&ストリーミング処理実験中")
