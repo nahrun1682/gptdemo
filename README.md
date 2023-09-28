@@ -7,6 +7,7 @@
 - [3. 前提](#3-前提)
 - [4. 使い方](#4-使い方)
 - [5. プロキシ環境](#5-プロキシ環境)
+- [6. Poetryコマンド](#6-poetryコマンド)
 
 # 3. 前提 
 
@@ -40,7 +41,7 @@ gio: http://localhost:8501: Operation not supported
 
 # 5. プロキシ環境
 
-参考：https://qiita.com/c60evaporator/items/7a757134d028a7734118
+参考：[プロキシ環境でのPython環境構築まとめ](https://qiita.com/c60evaporator/items/7a757134d028a7734118)
 
 プロジェクト内のpyproject.tomlに以下の記述を追加
 
@@ -50,3 +51,15 @@ name = "proxy"
 url = "http://プロキシのアドレス:ポート"
 default = true
 ```
+
+# 6. Poetryコマンド
+
+参考:[Poetryをサクッと使い始めてみる](https://qiita.com/ksato9700/items/b893cf1db83605898d8a)
+インストールされているパッケージのアップグレード（バージョンアップ）を行いたい時には poetry updateを使う。
+
+```zsh
+poetry update --dry-run
+#とするとアップグレードされるパッケージがわかるので、それを確認した上で
+poetry update
+```
+すると実際にアップグレードが行われます。なお、poetry updateした時に変更されるのはpoetry.lockだけで pyproject.tomlはそのままです。新しいバージョンの新機能を使うなどの場合はpyproject.tomlを手動で修正してして依存するバージョンを変える必要があります。
