@@ -25,11 +25,12 @@ jobs:
       - name: Install Poetry
         run: pip install poetry
         
+      - name: Configure Poetry
+        run: poetry config virtualenvs.create false
+
       - name: Install dependencies
         run: poetry install
         
-      # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
-      
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v2
         with:
