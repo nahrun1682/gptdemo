@@ -7,7 +7,8 @@
 - [3. 前提](#3-前提)
 - [4. 使い方](#4-使い方)
 - [5. プロキシ環境](#5-プロキシ環境)
-- [6. Poetryコマンド](#6-poetryコマンド)
+- [6. Azure App ServicesでのStreamlitアプリのデプロイ](#6-azure-app-servicesでのstreamlitアプリのデプロイ)
+- [7. Poetryコマンド](#7-poetryコマンド)
 
 # 3. 前提 
 
@@ -52,7 +53,28 @@ url = "http://プロキシのアドレス:ポート"
 default = true
 ```
 
-# 6. Poetryコマンド
+# 6. Azure App ServicesでのStreamlitアプリのデプロイ
+参考[Azure App ServicesでのStreamlitアプリのデプロイ](https://docs.kanaries.net/ja/tutorials/Streamlit/deploy-streamlit-app)
+
+[Azure App ServiceへのPython Webアプリの簡単デプロイ（CLI）](https://qiita.com/yakigac/items/a3369bfc2f4730cd299f)
+
+Azure App ServicesにStreamlitアプリをデプロイする手順のガイドを以下に示します。
+
+1. Azureアカウントの作成：まだ持っていない場合、Azureアカウントにサインアップしてください。
+
+1. 新しいApp Serviceの作成：Azureポータルに移動し、新しいApp Serviceを作成します。
+
+1. App Serviceの構成：サブスクリプション、リソースグループ、名前、公開方法（コード）、ランタイムスタック（Python）、およびオペレーティングシステムを選択します。
+
+1. アプリをデプロイする：App Serviceが設定されたら、Azure CLIまたはGitを使用してStreamlitアプリをデプロイできます。Azure CLIを使用してアプリをデプロイするためのサンプルコマンドのシーケンスを以下に示します。
+
+```zsh
+az webapp up --sku F1 --name my-streamlit-app
+```
+
+これらの手順の後、StreamlitアプリはAzure App Services上で公開されるはずです。
+
+# 7. Poetryコマンド
 
 参考:[Poetryをサクッと使い始めてみる](https://qiita.com/ksato9700/items/b893cf1db83605898d8a)
 インストールされているパッケージのアップグレード（バージョンアップ）を行いたい時には poetry updateを使う。
