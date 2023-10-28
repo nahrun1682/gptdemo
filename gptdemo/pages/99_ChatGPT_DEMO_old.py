@@ -13,10 +13,7 @@ load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
 from libs.aoai_test import generate_response_aoai
 
 #タイトルを表示
-st.title('🦜ChatGPT DEMO')
-
-#ワイド表示
-st.set_page_config(layout="wide")
+st.title('🦜ChatGPT DEMO OLD')
 
 #最後に、st.form() を使用して、ユーザーが入力したプロンプトを受け入れるためのテキストボックス (st.text_area()) を作成します。
 #ユーザーが「送信」ボタンをクリックした時点で、prompt 入力変数 (テキスト) を引数として、generate-response() 関数が呼び出されます。
