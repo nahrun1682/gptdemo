@@ -8,8 +8,9 @@
 - [4. 使い方](#4-使い方)
 - [5. プロキシ環境](#5-プロキシ環境)
 - [6. Azure App ServicesでのStreamlitアプリのデプロイ](#6-azure-app-servicesでのstreamlitアプリのデプロイ)
-- [7. Poetryコマンド](#7-poetryコマンド)
-- [8. 宿題](#8-宿題)
+- [7. Azure App Service で実行されている Web アプリにアプリの認証を追加する](#7-azure-app-service-で実行されている-web-アプリにアプリの認証を追加する)
+- [8. Poetryコマンド](#8-poetryコマンド)
+- [9. 宿題](#9-宿題)
 
 # 3. 前提 
 
@@ -27,7 +28,7 @@ poetry run streamlit run gptdemo/01_ChatGPT_DEMO.py
 
 成功すると以下が標準出力される
 ```zsh
-/mnt/d/GPT/gptdemo % poetry run streamlit run gptdemo/01_ChatGPT@2デジ.py
+/mnt/d/GPT/gptdemo % poetry run streamlit run gptdemo/01_ChatGPT_DEMO.py
 
   You can now view your Streamlit app in your browser.
 
@@ -75,7 +76,13 @@ az webapp up --sku F1 --name my-streamlit-app
 
 これらの手順の後、StreamlitアプリはAzure App Services上で公開されるはずです。
 
-# 7. Poetryコマンド
+# 7. Azure App Service で実行されている Web アプリにアプリの認証を追加する
+
+参考：[チュートリアル: Azure App Service で実行されている Web アプリにアプリの認証を追加する](https://learn.microsoft.com/ja-jp/azure/app-service/scenario-secure-app-authentication-app-service)
+
+
+
+# 8. Poetryコマンド
 
 参考:[Poetryをサクッと使い始めてみる](https://qiita.com/ksato9700/items/b893cf1db83605898d8a)
 インストールされているパッケージのアップグレード（バージョンアップ）を行いたい時には poetry updateを使う。
@@ -87,7 +94,7 @@ poetry update
 ```
 すると実際にアップグレードが行われます。なお、poetry updateした時に変更されるのはpoetry.lockだけで pyproject.tomlはそのままです。新しいバージョンの新機能を使うなどの場合はpyproject.tomlを手動で修正してして依存するバージョンを変える必要があります。
 
-# 8. 宿題
+# 9. 宿題
 
 1. ストリーム処理をlangcahinから
 2. langcahinからazureへ
