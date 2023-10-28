@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 import openai
 #libsフォルダの中にあるsimple_chat_responseをimport
-from libs.simple_chat_respomse import simple_response_chatgpt
+from libs.simple_chat_response import simple_response_chatgpt
 
 # .envファイルの読み込み
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
@@ -14,7 +14,14 @@ st.set_page_config(layout="wide")
 
 #タイトルを表示
 st.title('🦜ChatGPT DEMO')
+st.subheader('まだmemory機能は未実装' )
 
+model_name = st.radio(label='モデルを選択してね',
+                 options=('gpt-3.5-turbo', 'gpt-4'),
+                 index=0,
+                 horizontal=True,
+)
+ 
 # 定数定義
 USER_NAME = "user"
 ASSISTANT_NAME = "assistant"
@@ -36,7 +43,7 @@ if user_msg:
         st.write(user_msg)
 
     # アシスタントのメッセージを表示
-    response = simple_response_chatgpt(user_msg)
+    response = simple_response_chatgpt(model_name,user_msg)
     with st.chat_message(ASSISTANT_NAME):
         assistant_msg = ""
         assistant_response_area = st.empty()

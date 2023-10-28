@@ -9,6 +9,7 @@
 - [5. プロキシ環境](#5-プロキシ環境)
 - [6. Azure App ServicesでのStreamlitアプリのデプロイ](#6-azure-app-servicesでのstreamlitアプリのデプロイ)
 - [7. Poetryコマンド](#7-poetryコマンド)
+- [8. 宿題](#8-宿題)
 
 # 3. 前提 
 
@@ -85,3 +86,10 @@ poetry update --dry-run
 poetry update
 ```
 すると実際にアップグレードが行われます。なお、poetry updateした時に変更されるのはpoetry.lockだけで pyproject.tomlはそのままです。新しいバージョンの新機能を使うなどの場合はpyproject.tomlを手動で修正してして依存するバージョンを変える必要があります。
+
+# 8. 宿題
+
+1. ストリーム処理をlangcahinから
+2. langcahinからazureへ
+3. dockerによるコンテナ化
+4. jupyter vscode上で使いたいよね

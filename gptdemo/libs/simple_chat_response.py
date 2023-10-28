@@ -8,6 +8,10 @@ from langchain.schema import AIMessage, HumanMessage, SystemMessage
 from langchain.llms import AzureOpenAI
 import openai
 
+#streming by langcahin
+from langchain.llms import OpenAI
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+
 # .envファイルの読み込み
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '..', '.env'))
 
@@ -20,6 +24,7 @@ aoai_deployment_name = os.environ["AOAI_DEPLOYMENT_NAME"]
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
 def simple_response_chatgpt(
+    model_name: str,
     user_msg: str,
 ):
     """ChatGPTのレスポンスを取得
@@ -28,10 +33,16 @@ def simple_response_chatgpt(
         user_msg (str): ユーザーメッセージ。
     """
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model=model_name,
         messages=[
             {"role": "user", "content": user_msg},
         ],
         stream=True,
     )
+    print(f"test:{model_name}")
+    print(f"response:{response}")
     return response
+
+def stream_respnse_lc():
+    llm = OpenAI(streaming=True, callbacks=[StreamingStdOutCallbackHandler()], temperature=0)
+    return 
