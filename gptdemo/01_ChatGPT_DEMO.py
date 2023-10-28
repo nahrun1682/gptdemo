@@ -2,26 +2,50 @@ import streamlit as st
 from langchain.llms import OpenAI
 import os
 from dotenv import load_dotenv
+import openai
+#libsフォルダの中にあるsimple_chat_responseをimport
+from libs.simple_chat_respomse import simple_response_chatgpt
 
 # .envファイルの読み込み
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
-
-#libsフォルダの中にあるaoai_test.pyをimport
-from libs.aoai_test import generate_response_aoai
 
 #ワイド表示
 st.set_page_config(layout="wide")
 
 #タイトルを表示
-st.title('🦜ChatGPT@２デジ(デモ用)')
-st.subheader("StreamlitというAI/ML用のフロント開発ライブラリを使ってます")
-st.subheader("何かあればYuto.Kawamura@jp.nttdata.comまで")
+st.title('🦜ChatGPT DEMO')
 
-#最後に、st.form() を使用して、ユーザーが入力したプロンプトを受け入れるためのテキストボックス (st.text_area()) を作成します。
-#ユーザーが「送信」ボタンをクリックした時点で、prompt 入力変数 (テキスト) を引数として、generate-response() 関数が呼び出されます。
-with st.form('my_form'):
-  text = st.text_area('Enter text:', '')
-  submitted = st.form_submit_button('Submit')
-  if submitted:
-    answer = generate_response_aoai(text)
-    st.info(answer)
+# 定数定義
+USER_NAME = "user"
+ASSISTANT_NAME = "assistant"
+
+# チャットログを保存したセッション情報を初期化
+if "chat_log" not in st.session_state:
+    st.session_state.chat_log = []
+
+
+user_msg = st.chat_input("ここにメッセージを入力")
+if user_msg:
+    # 以前のチャットログを表示
+    for chat in st.session_state.chat_log:
+        with st.chat_message(chat["name"]):
+            st.write(chat["msg"])
+
+    # 最新のメッセージを表示
+    with st.chat_message(USER_NAME):
+        st.write(user_msg)
+
+    # アシスタントのメッセージを表示
+    response = simple_response_chatgpt(user_msg)
+    with st.chat_message(ASSISTANT_NAME):
+        assistant_msg = ""
+        assistant_response_area = st.empty()
+        for chunk in response:
+            # 回答を逐次表示
+            tmp_assistant_msg = chunk["choices"][0]["delta"].get("content", "")
+            assistant_msg += tmp_assistant_msg
+            assistant_response_area.write(assistant_msg)
+
+    # セッションにチャットログを追加
+    st.session_state.chat_log.append({"name": USER_NAME, "msg": user_msg})
+    st.session_state.chat_log.append({"name": ASSISTANT_NAME, "msg": assistant_msg})

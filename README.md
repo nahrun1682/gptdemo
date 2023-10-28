@@ -21,7 +21,7 @@ cd gptdemo
 #仮想環境起動
 poetry install
 #フロント起動
-poetry run streamlit run gptdemo/01_ChatGPT@2デジ.py
+poetry run streamlit run gptdemo/01_ChatGPT_DEMO.py
 ```
 
 成功すると以下が標準出力される
