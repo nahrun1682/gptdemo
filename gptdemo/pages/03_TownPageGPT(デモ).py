@@ -2,5 +2,5 @@ import streamlit as st
 from langchain.llms import OpenAI
 import os
 
-st.title('🦜ChatGPT@２デジ(デモ用)')
+st.title('🦜ChatGPT')
 st.subheader("TownPageGPT(デモ)")

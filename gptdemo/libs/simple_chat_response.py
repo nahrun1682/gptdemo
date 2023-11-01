@@ -12,6 +12,10 @@ import openai
 from langchain.llms import OpenAI
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
+from langchain.chains import ConversationChain
+from langchain.memory import ConversationBufferMemory
+from langchain.callbacks.base import BaseCallbackHandler
+
 # .envファイルの読み込み
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '..', '.env'))
 
@@ -46,3 +50,8 @@ def simple_response_chatgpt(
 def stream_respnse_lc():
     llm = OpenAI(streaming=True, callbacks=[StreamingStdOutCallbackHandler()], temperature=0)
     return 
+        
+def get_state(): 
+     if "state" not in st.session_state: 
+         st.session_state.state = {"memory": ConversationBufferMemory(memory_key="chat_history")} 
+     return st.session_state.state 

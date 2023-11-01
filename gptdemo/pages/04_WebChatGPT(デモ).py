@@ -17,7 +17,6 @@ load_dotenv(os.path.join(os.path.dirname(__file__), '...', '.env'))
 
 openai_api_key=os.environ["OPENAI_API_KEY"]
 
-st.header("ChatGPT@２デジ")
 st.subheader("WebChatGPT(デモ)&ストリーミング処理実験中")
                                   
 def get_state(): 
