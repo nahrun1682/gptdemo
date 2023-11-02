@@ -76,7 +76,7 @@ def get_qa(query,neighborNum):
 
     return similar_prompt.format(question=query)
 
-if __name__ == "__main__": 
-    response = get_qa('俺の家でもなんとかなる？',3)
-    print(response)
+# if __name__ == "__main__": 
+#     response = get_qa('俺の家でもなんとかなる？',3)
+#     print(response)
     
