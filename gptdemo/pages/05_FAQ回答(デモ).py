@@ -2,6 +2,7 @@ import streamlit as st
 from langchain.llms import OpenAI
 import os
 from dotenv import load_dotenv
+import pandas as pd
 
 # .envファイルの読み込み
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
@@ -12,6 +13,11 @@ from libs.exsample_selector import *
 
 #タイトルを表示
 st.title('🦜FAQ回答')
+
+if st.button('デモ用FAQを表示する'):
+    df = pd.read_excel('gptdemo/data/qa/virusQA.xlsx',sheet_name='シート1',
+        index_col='QAの番号')
+    st.table(df)
 
 #最後に、st.form() を使用して、ユーザーが入力したプロンプトを受け入れるためのテキストボックス (st.text_area()) を作成します。
 #ユーザーが「送信」ボタンをクリックした時点で、prompt 入力変数 (テキスト) を引数として、generate-response() 関数が呼び出されます。

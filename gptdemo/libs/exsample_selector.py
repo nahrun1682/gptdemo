@@ -3,10 +3,8 @@ import os
 
 from dotenv import load_dotenv
 from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain.vectorstores import Chroma
 import pandas as pd
 from langchain.prompts.example_selector import SemanticSimilarityExampleSelector
-from langchain.vectorstores import Chroma
 from langchain.prompts import FewShotPromptTemplate, PromptTemplate
 from langchain.vectorstores import FAISS
 
@@ -77,7 +75,4 @@ def get_qa(query,neighborNum):
 
     return similar_prompt.format(question=query)
 
-# if __name__ == "__main__": 
-#     response = get_qa('俺の家でもなんとかなる？',3)
-#     print(response)
     
