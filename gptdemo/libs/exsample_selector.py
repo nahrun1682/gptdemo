@@ -8,6 +8,7 @@ import pandas as pd
 from langchain.prompts.example_selector import SemanticSimilarityExampleSelector
 from langchain.vectorstores import Chroma
 from langchain.prompts import FewShotPromptTemplate, PromptTemplate
+from langchain.vectorstores import FAISS
 
 
 print("ok")
@@ -18,7 +19,7 @@ load_dotenv(os.path.join(os.path.dirname(__file__), '..', '..', '.env'))
 
 
 #ファイルパス
-test_excel_path ="gptdemo/libs/virusQA.xlsx"
+test_excel_path ="gptdemo/data/qa/virusQA.xlsx"
 DB_DIR = "tmp/ChromaDB"
 
 #エクセルの読み込みからデータの変換を行う関数
@@ -61,7 +62,7 @@ def get_qa(query,neighborNum):
     # This is the embedding class used to produce embeddings which are used to measure semantic similarity.
     embedding_openai,
     # This is the VectorStore class that is used to store the embeddings and do a similarity search over.
-    Chroma,
+    FAISS,
     # This is the number of examples to produce.
     k=neighborNum
 )
