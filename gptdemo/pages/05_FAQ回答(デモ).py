@@ -1,3 +1,4 @@
+#ref:https://qiita.com/tsuru_/items/049097bc51c974fc291d
 import streamlit as st
 from langchain.llms import OpenAI
 import os
@@ -14,10 +15,15 @@ from libs.exsample_selector import *
 #タイトルを表示
 st.title('🦜FAQ回答')
 
-if st.button('デモ用FAQを表示する'):
-    df = pd.read_excel('gptdemo/data/qa/virusQA.xlsx',sheet_name='シート1',
+df = pd.read_excel('gptdemo/data/qa/virusQA.xlsx',sheet_name='シート1',
         index_col='QAの番号')
-    st.table(df)
+
+# if st.button('デモ用FAQを表示する'):
+#     # df = pd.read_excel('gptdemo/data/qa/virusQA.xlsx',sheet_name='シート1',
+#     #     index_col='QAの番号')
+#     st.table(df)
+
+edited_df = st.data_editor(df)
 
 #最後に、st.form() を使用して、ユーザーが入力したプロンプトを受け入れるためのテキストボックス (st.text_area()) を作成します。
 #ユーザーが「送信」ボタンをクリックした時点で、prompt 入力変数 (テキスト) を引数として、generate-response() 関数が呼び出されます。
