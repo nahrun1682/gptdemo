@@ -1,58 +1,58 @@
-import streamlit as st
-from langchain.llms import OpenAI
 import os
 from dotenv import load_dotenv
-import openai
-#libsフォルダの中にあるsimple_chat_responseをimport
-from libs.simple_chat_response import simple_response_chatgpt
+import streamlit as st
+
+from langchain.callbacks.base import BaseCallbackHandler
+from langchain.chat_models import ChatOpenAI
+from langchain.schema import ChatMessage
 
 # .envファイルの読み込み
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
+openai_api_key = os.environ["OPENAI_API_KEY"]
 
-#ワイド表示
-st.set_page_config(layout="wide")
-
-#タイトルを表示
-st.title('🦜ChatGPT DEMO')
-st.subheader('まだmemory機能は未実装' )
-
-model_name = st.radio(label='モデルを選択してね',
-                 options=('gpt-3.5-turbo', 'gpt-4'),
-                 index=0,
-                 horizontal=True,
-)
- 
-# 定数定義
-USER_NAME = "user"
-ASSISTANT_NAME = "assistant"
-
-# チャットログを保存したセッション情報を初期化
 if "chat_log" not in st.session_state:
     st.session_state.chat_log = []
 
+#タイトルを表示
+st.title('🦜ChatGPT DEMO')
 
-user_msg = st.chat_input("ここにメッセージを入力")
-if user_msg:
-    # 以前のチャットログを表示
-    for chat in st.session_state.chat_log:
-        with st.chat_message(chat["name"]):
-            st.write(chat["msg"])
 
-    # 最新のメッセージを表示
-    with st.chat_message(USER_NAME):
-        st.write(user_msg)
+    
+# model_name = st.radio(label='モデルを選択してね',
+#                  options=('gpt-3.5-turbo', 'gpt-4'),
+#                  index=0,
+#                  horizontal=True,
+# )
+model_name = st.sidebar.radio("Choose a model:", ("gpt-3.5-turbo", "gpt-4"))
+temperature = st.sidebar.slider("Temperature(大きいほど正確、低いほどランダム):", min_value=0.0, max_value=1.0, value=1.0, step=0.1)
 
-    # アシスタントのメッセージを表示
-    response = simple_response_chatgpt(model_name,user_msg)
-    with st.chat_message(ASSISTANT_NAME):
-        assistant_msg = ""
-        assistant_response_area = st.empty()
-        for chunk in response:
-            # 回答を逐次表示
-            tmp_assistant_msg = chunk["choices"][0]["delta"].get("content", "")
-            assistant_msg += tmp_assistant_msg
-            assistant_response_area.write(assistant_msg)
+class StreamHandler(BaseCallbackHandler):
+    def __init__(self, container, initial_text=""):
+        self.container = container
+        self.text = initial_text
 
-    # セッションにチャットログを追加
-    st.session_state.chat_log.append({"name": USER_NAME, "msg": user_msg})
-    st.session_state.chat_log.append({"name": ASSISTANT_NAME, "msg": assistant_msg})
+    def on_llm_new_token(self, token: str, **kwargs) -> None:
+        self.text += token
+        self.container.markdown(self.text)
+
+if "messages" not in st.session_state:
+    st.session_state["messages"] = [ChatMessage(role="assistant", content="なんでも聞いてね")]
+
+for msg in st.session_state.messages:
+    st.chat_message(msg.role).write(msg.content)
+
+if prompt := st.chat_input():
+    st.session_state.messages.append(ChatMessage(role="user", content=prompt))
+    st.chat_message("user").write(prompt)
+
+    # if not openai_api_key:
+    #     st.info("Please add your OpenAI API key to continue.")
+    #     st.stop()
+
+    with st.chat_message("assistant"):
+        stream_handler = StreamHandler(st.empty())
+        llm = ChatOpenAI(openai_api_key=openai_api_key, model_name=model_name,temperature=temperature,streaming=True, callbacks=[stream_handler])
+        # print(model_name)
+        response = llm(st.session_state.messages)
+        st.session_state.messages.append(ChatMessage(role="assistant", content=response.content))
+

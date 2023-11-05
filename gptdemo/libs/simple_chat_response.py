@@ -16,6 +16,8 @@ from langchain.chains import ConversationChain
 from langchain.memory import ConversationBufferMemory
 from langchain.callbacks.base import BaseCallbackHandler
 
+
+
 # .envファイルの読み込み
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '..', '.env'))
 

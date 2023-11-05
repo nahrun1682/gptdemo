@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 import openai
 #libsフォルダの中にあるsimple_chat_responseをimport
-from libs.simple_chat_response import simple_response_chatgpt
+from libs.simple_chat_response import *
 
 # .envファイルの読み込み
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
@@ -29,6 +29,7 @@ ASSISTANT_NAME = "assistant"
 # チャットログを保存したセッション情報を初期化
 if "chat_log" not in st.session_state:
     st.session_state.chat_log = []
+
 
 
 user_msg = st.chat_input("ここにメッセージを入力")
