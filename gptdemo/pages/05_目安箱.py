@@ -17,7 +17,7 @@ with st.form(key='my_form'):
 # 送信ボタンが押されたら
 if submit_button:
     # Gmailの認証情報
-    username = 'kawamura100995@gmail.com'
+    username = 'gptdemo94@gmail.com'
     # gmail_password = '生成したアプリパスワード'  # 2段階認証を設定している場合はアプリパスワードが必要
 
     # メールの内容を設定
