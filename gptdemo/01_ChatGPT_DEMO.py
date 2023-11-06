@@ -5,10 +5,13 @@ import streamlit as st
 from langchain.callbacks.base import BaseCallbackHandler
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import ChatMessage
+#import langchain
 
 # .envファイルの読み込み
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
 openai_api_key = os.environ["OPENAI_API_KEY"]
+
+#langchain.verbose = False
 
 if "chat_log" not in st.session_state:
     st.session_state.chat_log = []
@@ -23,7 +26,7 @@ st.title('🦜ChatGPT DEMO')
 #                  index=0,
 #                  horizontal=True,
 # )
-model_name = st.sidebar.radio("Choose a model:", ("gpt-3.5-turbo", "gpt-4"))
+model_name = st.sidebar.radio("Choose a model:", ("gpt-3.5-turbo", "gpt-4", "gpt-4-1106-preview", "gpt-4-vision-preview"))
 temperature = st.sidebar.slider("Temperature(大きいほど正確、低いほどランダム):", min_value=0.0, max_value=1.0, value=1.0, step=0.1)
 
 class StreamHandler(BaseCallbackHandler):
