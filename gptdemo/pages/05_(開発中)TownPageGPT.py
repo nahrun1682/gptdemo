@@ -74,6 +74,14 @@ if wav_audio_data is not None:
     col_playback, col_space = st.columns([0.58,0.42])
     with col_playback:
         st.audio(wav_audio_data, format='audio/wav')
+        
+if wav_audio_data is not None:
+    # オーディオデータをメモリ上のバイトストリームとして保存
+    audio_bytes_io = io.BytesIO(wav_audio_data)
+    
+    # ファイルとして書き出す場合
+    with open('recording.wav', 'wb') as out_file:
+        out_file.write(audio_bytes_io.getvalue())
 
 
 # if __name__ == '__main__':
