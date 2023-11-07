@@ -18,18 +18,29 @@ if "chat_log" not in st.session_state:
 #タイトルを表示
 st.title('🦜ChatGPT DEMO')
 
+# model_name = st.sidebar.radio(
+#     "モデルを選択(1106が現在最新版):",
+#     ("gpt-3.5-turbo", "gpt-4", "gpt-3.5-turbo-1106","gpt-4-1106-preview"),
+#     index=2)
+# temperature = st.sidebar.slider("Temperature(大きいほど正確、低いほどランダム):", min_value=0.0, max_value=1.0, value=1.0, step=0.1)
 
-    
-# model_name = st.radio(label='モデルを選択してね',
-#                  options=('gpt-3.5-turbo', 'gpt-4'),
-#                  index=0,
-#                  horizontal=True,
-# )
-model_name = st.sidebar.radio(
-    "モデルを選択(1106が現在最新版):",
-    ("gpt-3.5-turbo", "gpt-4", "gpt-3.5-turbo-1106","gpt-4-1106-preview"),
-    index=2)
-temperature = st.sidebar.slider("Temperature(大きいほど正確、低いほどランダム):", min_value=0.0, max_value=1.0, value=1.0, step=0.1)
+#サイドバーの折りたたみ可能なセクションを作成
+with st.sidebar:
+    st.header('設定')
+    with st.expander("モデル選択"):
+        model_name = st.radio(
+            "モデルを選択(1106が現在最新版):",
+            ("gpt-3.5-turbo", "gpt-4", "gpt-3.5-turbo-1106", "gpt-4-1106-preview"),
+            index=2
+        )
+
+    with st.expander("オプション設定"):
+        temperature = st.slider(
+            "Temperature(大きいほど正確、低いほどランダム):", 
+            min_value=0.0, max_value=1.0, value=0.7, step=0.1
+        )
+
+    # その他のサイドバー設定
 
 class StreamHandler(BaseCallbackHandler):
     def __init__(self, container, initial_text=""):
