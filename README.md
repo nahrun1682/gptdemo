@@ -144,3 +144,6 @@ pip install poetry==1.7.0 && \  # ここで特定のpoetryバージョンを指�
 poetry config virtualenvs.create false --local && \  # システムのPython環境を使用
 poetry install --no-interaction --no-ansi && \
 poetry run streamlit run gptdemo/01_ChatGPT_DEMO.py --server.port $PORT
+
+
+pip install --upgrade pip && pip install poetry==1.7.0 && poetry config virtualenvs.create false --local && poetry install --no-interaction --no-ansi && poetry update langchain && poetry run streamlit run gptdemo/01_ChatGPT_DEMO.py --server.port $PORT

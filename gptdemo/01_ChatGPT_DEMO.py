@@ -5,7 +5,6 @@ import streamlit as st
 from langchain.callbacks.base import BaseCallbackHandler
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import ChatMessage
-#import langchain
 
 # .envファイルの読み込み
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
