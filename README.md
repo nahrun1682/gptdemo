@@ -12,6 +12,7 @@
 - [8. Poetryコマンド](#8-poetryコマンド)
 - [9. Docker](#9-docker)
 - [10. 宿題](#10-宿題)
+- [11. スタートアップコマンド](#11-スタートアップコマンド)
 
 # 3. 前提 
 
@@ -133,3 +134,13 @@ poetry update
 2. langcahinからazureへ
 3. dockerによるコンテナ化
 4. jupyter vscode上で使いたいよね
+5. pip install poetry && poetry install && poetry run streamlit run gptdemo/01_ChatGPT_DEMO.py --server.port $PORT
+6. /mnt/d/GPT/GPTDEMO # poetry --version
+Poetry (version 1.7.0)
+
+# 11. スタートアップコマンド
+pip install --upgrade pip && \
+pip install poetry==1.7.0 && \  # ここで特定のpoetryバージョンを指定
+poetry config virtualenvs.create false --local && \  # システムのPython環境を使用
+poetry install --no-interaction --no-ansi && \
+poetry run streamlit run gptdemo/01_ChatGPT_DEMO.py --server.port $PORT
