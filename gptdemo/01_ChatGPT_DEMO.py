@@ -25,7 +25,10 @@ st.title('🦜ChatGPT DEMO')
 #                  index=0,
 #                  horizontal=True,
 # )
-model_name = st.sidebar.radio("モデルを選択(1106が現在最新版):", ("gpt-3.5-turbo", "gpt-4", "gpt-3.5-turbo-1106","gpt-4-1106-preview"))
+model_name = st.sidebar.radio(
+    "モデルを選択(1106が現在最新版):",
+    ("gpt-3.5-turbo", "gpt-4", "gpt-3.5-turbo-1106","gpt-4-1106-preview"),
+    index=2)
 temperature = st.sidebar.slider("Temperature(大きいほど正確、低いほどランダム):", min_value=0.0, max_value=1.0, value=1.0, step=0.1)
 
 class StreamHandler(BaseCallbackHandler):
