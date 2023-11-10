@@ -6,6 +6,8 @@ from langchain.callbacks.base import BaseCallbackHandler
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import ChatMessage
 
+from libs.web_research_retriever import web_research_retriever
+
 # .envファイルの読み込み
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
 openai_api_key = os.environ["OPENAI_API_KEY"]
@@ -17,7 +19,6 @@ if "chat_log" not in st.session_state:
 
 #タイトルを表示
 st.title('🦜ChatGPT DEMO')
-
 # model_name = st.sidebar.radio(
 #     "モデルを選択(1106が現在最新版):",
 #     ("gpt-3.5-turbo", "gpt-4", "gpt-3.5-turbo-1106","gpt-4-1106-preview"),
@@ -27,20 +28,19 @@ st.title('🦜ChatGPT DEMO')
 #サイドバーの折りたたみ可能なセクションを作成
 with st.sidebar:
     st.header('設定')
+    
     with st.expander("モデル選択"):
         model_name = st.radio(
             "モデルを選択(1106が現在最新版):",
             ("gpt-3.5-turbo", "gpt-4", "gpt-3.5-turbo-1106", "gpt-4-1106-preview"),
-            index=2
+            index=3
         )
 
     with st.expander("オプション設定"):
         temperature = st.slider(
             "Temperature(大きいほど正確、低いほどランダム):", 
-            min_value=0.0, max_value=1.0, value=0.7, step=0.1
+            min_value=0.0, max_value=1.0, value=1.0, step=0.1
         )
-
-    # その他のサイドバー設定
 
 class StreamHandler(BaseCallbackHandler):
     def __init__(self, container, initial_text=""):
@@ -67,8 +67,8 @@ if prompt := st.chat_input():
 
     with st.chat_message("assistant"):
         stream_handler = StreamHandler(st.empty())
+        
         llm = ChatOpenAI(openai_api_key=openai_api_key, model_name=model_name,temperature=temperature,streaming=True, callbacks=[stream_handler])
         # print(model_name)
         response = llm(st.session_state.messages)
         st.session_state.messages.append(ChatMessage(role="assistant", content=response.content))
-
