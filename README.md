@@ -155,3 +155,8 @@ poetry run streamlit run gptdemo/01_ChatGPT_DEMO.py --server.port $PORT
 
 
 pip install --upgrade pip && pip install poetry==1.7.0 && poetry config virtualenvs.create false --local && poetry install --no-interaction --no-ansi && poetry update langchain && poetry run streamlit run gptdemo/01_ChatGPT_DEMO.py --server.port $PORT
+
+```bash
+#20231112
+pip install poetry && poetry install && poetry run streamlit run gptdemo/01_ChatGPT_DEMO.py --server.port $PORT
+```
