@@ -160,3 +160,7 @@ pip install --upgrade pip && pip install poetry==1.7.0 && poetry config virtuale
 #20231112
 pip install poetry && poetry install && poetry run streamlit run gptdemo/01_ChatGPT_DEMO.py --server.port $PORT
 ```
+
+```bash
+sh startup.sh
+```
