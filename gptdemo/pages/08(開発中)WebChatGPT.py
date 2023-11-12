@@ -58,14 +58,14 @@ class StreamHandler(BaseCallbackHandler):
         self.text += token
         self.container.markdown(self.text)
 
-if "messages" not in st.session_state:
-    st.session_state["messages"] = [ChatMessage(role="assistant", content="なんでも聞いてね")]
+if "messages_webgpt" not in st.session_state:
+    st.session_state["messages_webgpt"] = [ChatMessage(role="assistant", content="なんでも聞いてね")]
 
-for msg in st.session_state.messages:
+for msg in st.session_state.messages_webgpt:
     st.chat_message(msg.role).write(msg.content)
 
 if prompt := st.chat_input():
-    st.session_state.messages.append(ChatMessage(role="user", content=prompt))
+    st.session_state.messages_webgpt.append(ChatMessage(role="user", content=prompt))
     st.chat_message("user").write(prompt)
 
     # if not openai_api_key:
@@ -79,9 +79,9 @@ if prompt := st.chat_input():
         if web_mode_selection == 'OFF':
             llm = ChatOpenAI(openai_api_key=openai_api_key, model_name=model_name,temperature=temperature,streaming=True, callbacks=[stream_handler])
             # print(model_name)
-            response = llm(st.session_state.messages)
-            st.session_state.messages.append(ChatMessage(role="assistant", content=response.content))
+            response = llm(st.session_state.messages_webgpt)
+            st.session_state.messages_webgpt.append(ChatMessage(role="assistant", content=response.content))
         else:
             result = web_research_retriever(prompt,model_name,temperature)
-            st.session_state.messages.append(ChatMessage(role="assistant", content=result['answer']+'\n'+'参照先\n'+result['sources']))
+            st.session_state.messages_webgpt.append(ChatMessage(role="assistant", content=result['answer']+'\n'+'参照先\n'+result['sources']))
         
