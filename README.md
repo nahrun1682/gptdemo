@@ -11,8 +11,9 @@
 - [7. Azure App Service で実行されている Web アプリにアプリの認証を追加する](#7-azure-app-service-で実行されている-web-アプリにアプリの認証を追加する)
 - [8. Poetryコマンド](#8-poetryコマンド)
 - [9. Docker](#9-docker)
-- [10. 宿題](#10-宿題)
-- [11. スタートアップコマンド](#11-スタートアップコマンド)
+- [10. fastapi+gunicorn](#10-fastapigunicorn)
+- [11. 宿題](#11-宿題)
+- [12. スタートアップコマンド](#12-スタートアップコマンド)
 
 # 3. 前提 
 
@@ -127,8 +128,15 @@ poetry update
 4. **アクセス**
    http://127.0.0.1:8501
 
+# 10. fastapi+gunicorn
 
-# 10. 宿題
+```bash
+#起動方法
+poetry run gunicorn -w 4 -k uvicorn.workers.UvicornWorker fastapi_app.main:app
+```
+
+
+# 11. 宿題
 
 1. ストリーム処理をlangcahinから
 2. langcahinからazureへ
@@ -138,7 +146,7 @@ poetry update
 6. /mnt/d/GPT/GPTDEMO # poetry --version
 Poetry (version 1.7.0)
 
-# 11. スタートアップコマンド
+# 12. スタートアップコマンド
 pip install --upgrade pip && \
 pip install poetry==1.7.0 && \  # ここで特定のpoetryバージョンを指定
 poetry config virtualenvs.create false --local && \  # システムのPython環境を使用
