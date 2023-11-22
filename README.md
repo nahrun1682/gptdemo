@@ -113,7 +113,7 @@ poetry update
     イメージがビルドされたら、新しいコンテナインスタンスを起動することができます。アプリケーションがウェブサーバーを使用している場合、適切なポートを公開する必要があります。
 
     ```sh
-    docker run -p 8501:8501 gptdemo
+    docker run -p 8501:8080 gptdemo
     ```
 
     このコマンドは、ローカルマシンのポート8501をコンテナのポート8501にバインドします（Streamlitがデフォルトで使用）。`my-python-app`は、先ほどビルドしたDockerイメージの名前です。
@@ -126,7 +126,7 @@ poetry update
 このプロセスにより、Dockerコンテナの中でアプリケーションがどのように動作するかをローカル環境で確認できます。これはデプロイ前のテストやデバッグ、開発プロセス中の問題のトラブルシューティングに非常に役立ちます。
 
 4. **アクセス**
-   http://127.0.0.1:8501
+   http://localhost:8501
 
 # 10. fastapi+gunicorn
 
@@ -157,10 +157,24 @@ poetry run streamlit run gptdemo/01_ChatGPT_DEMO.py --server.port $PORT
 pip install --upgrade pip && pip install poetry==1.7.0 && poetry config virtualenvs.create false --local && poetry install --no-interaction --no-ansi && poetry update langchain && poetry run streamlit run gptdemo/01_ChatGPT_DEMO.py --server.port $PORT
 
 ```bash
-#20231112
+#20231112(動いた)
 pip install poetry && poetry install && poetry run streamlit run gptdemo/01_ChatGPT_DEMO.py --server.port $PORT
+
+#20231112()
+pip install poetry && poetry install & poetry run gunicorn -w 4 -k uvicorn.workers.UvicornWorker fastapi_app.main:app --bind 0.0.0.0:8000
+
+#以下エラー
+2023-11-12T15:01:47.956Z INFO  - docker run -d --expose=8181 --expose=8082 --name gpt-demo-stremlit_0_eeaa3578_middleware -e WEBSITE_AUTH_ENABLED=True -e PORT=80 -e WEBSITE_SITE_NAME=gpt-demo-stremlit -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=gpt-demo-stremlit.azurewebsites.net -e WEBSITE_INSTANCE_ID=854dd9506899c9694307e0d08f4d78a285a46de0e3c0d6c64653dc76fa8620f8 -e HTTP_LOGGING_ENABLED=1 -e WEBSITE_USE_DIAGNOSTIC_SERVER=False mcr.microsoft.com/appsvc/middleware:stage5 /Host.ListenUrl=http://0.0.0.0:8181 /Host.DestinationHostUrl=http://169.254.129.2:80 /Host.UseFileLogging=true
 ```
 
 ```bash
 sh startup.sh
+```
+
+```bash
+echo "Starting setup..." ; \
+echo "Installing dependencies..." ; pip install poetry ; poetry install ; \
+echo "Starting Streamlit application..." ; poetry run streamlit run gptdemo/01_ChatGPT_DEMO.py --server.port 80 & \
+echo "Starting FastAPI application..." ; poetry run gunicorn -w 4 -k uvicorn.workers.UvicornWorker fastapi_app.main:app --bind 0.0.0.0:8000 & ; \
+echo "Startup script completed."
 ```
