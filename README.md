@@ -11,9 +11,10 @@
 - [7. Azure App Service で実行されている Web アプリにアプリの認証を追加する](#7-azure-app-service-で実行されている-web-アプリにアプリの認証を追加する)
 - [8. Poetryコマンド](#8-poetryコマンド)
 - [9. Docker](#9-docker)
-- [10. fastapi+gunicorn](#10-fastapigunicorn)
-- [11. 宿題](#11-宿題)
-- [12. スタートアップコマンド](#12-スタートアップコマンド)
+- [10. k8s](#10-k8s)
+- [11. fastapi+gunicorn](#11-fastapigunicorn)
+- [12. 宿題](#12-宿題)
+- [13. スタートアップコマンド](#13-スタートアップコマンド)
 
 # 3. 前提 
 
@@ -112,8 +113,8 @@ poetry update
 2. **コンテナの実行:**
     イメージがビルドされたら、新しいコンテナインスタンスを起動することができます。アプリケーションがウェブサーバーを使用している場合、適切なポートを公開する必要があります。
 
-    ```sh
-    docker run -p 8501:8080 gptdemo
+    ```bash
+    docker run --name mygptdemo -p 8501:8080 gptdemo
     ```
 
     このコマンドは、ローカルマシンのポート8501をコンテナのポート8501にバインドします（Streamlitがデフォルトで使用）。`my-python-app`は、先ほどビルドしたDockerイメージの名前です。
@@ -128,7 +129,11 @@ poetry update
 4. **アクセス**
    http://localhost:8501
 
-# 10. fastapi+gunicorn
+# 10. k8s
+
+
+
+# 11. fastapi+gunicorn
 
 ```bash
 #起動方法
@@ -136,7 +141,7 @@ poetry run gunicorn -w 4 -k uvicorn.workers.UvicornWorker fastapi_app.main:app
 ```
 
 
-# 11. 宿題
+# 12. 宿題
 
 1. ストリーム処理をlangcahinから
 2. langcahinからazureへ
@@ -146,7 +151,7 @@ poetry run gunicorn -w 4 -k uvicorn.workers.UvicornWorker fastapi_app.main:app
 6. /mnt/d/GPT/GPTDEMO # poetry --version
 Poetry (version 1.7.0)
 
-# 12. スタートアップコマンド
+# 13. スタートアップコマンド
 pip install --upgrade pip && \
 pip install poetry==1.7.0 && \  # ここで特定のpoetryバージョンを指定
 poetry config virtualenvs.create false --local && \  # システムのPython環境を使用

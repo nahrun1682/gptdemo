@@ -44,3 +44,35 @@ if st.button("画像生成"):
         img = Image.open(BytesIO(response.content))
         st.image(img)
 
+
+sec_prompt="""
+{
+  "Art Style": "Anime/Manga",
+  "Color Palette": "Vibrant, cool tones",
+  "Background": "Japanese park with cherry blossoms",
+  "Image Size": "768x768",
+  "Character": {
+    "Type": "Female Teenager",
+    "Expression": "Joyful",
+    "Pose": "Jumping or Running",
+    "Outfit": {
+      "Top": "Pink loose blouse with floral pattern",
+      "Bottom": "White flowy skirt"
+    },
+    "Race": "Anime-style ambiguous",
+    "Appearance": {
+      "Eyes": "Large almond-shaped, blue/pink with hints of purple",
+      "Nose": "Small",
+      "Mouth": "Smiling, light pink lips",
+      "Eyebrows": "Delicate, light gray",
+      "Hair": "Silver/white, long, side-parted, flowing with side-swept bangs",
+      "Physical": "Slender, fair skin",
+      "Accessories": [
+        "Ornamental hairpiece on right",
+        "Cherry blossom hairpin on left"
+      ],
+      "Distinctive": "Galaxy/star pattern in hair, mismatched eye colors"
+    }
+  }
+}
+"""
