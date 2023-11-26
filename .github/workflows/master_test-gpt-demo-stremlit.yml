@@ -5,17 +5,17 @@
 name: Build and deploy Python app to Azure Web App - test-gpt-demo-stremlit
 
 #一時停止したい場合
-on:
-  push:
-    branches-ignore:
-      - '**'
-#一時停止したい場合
-
 # on:
 #   push:
-#     branches:
-#       - master
-#   workflow_dispatch:
+#     branches-ignore:
+#       - '**'
+#一時停止したい場合
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
 
 jobs:
   build:
