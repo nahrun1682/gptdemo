@@ -184,6 +184,8 @@ echo "Starting FastAPI application..." ; poetry run gunicorn -w 4 -k uvicorn.wor
 echo "Startup script completed."
 ```
 
+#雑記
+
 ```python
 メモ　非同期処理
 
