@@ -256,3 +256,104 @@ if __name__ == '__main__':
     main()
 
 ```
+
+以下はstreamしつつ非同期処理
+
+```python
+from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate, MessagesPlaceholder
+from langchain.chat_models import ChatOpenAI
+from langchain.memory import ConversationBufferMemory
+import streamlit as st
+import asyncio
+
+st.set_page_config(layout="wide")
+async def manual_run(panel, llm, prompt_template, memory, question):
+    message = prompt_template.format_prompt(
+        human_input=question, 
+        chat_history=memory.load_memory_variables({})["chat_history"]
+    )
+    # add to ui
+    with panel:
+        with st.chat_message("user"):
+            st.markdown(question)
+        with st.chat_message("assistant"):
+            container = st.empty()
+
+    response = ""
+    async for chunk in llm.astream(message):
+        response += chunk.content
+        container.markdown(response)
+
+    memory.save_context({"input": question}, {"output": response})
+    return response
+
+
+async def logic(location, key, panel):
+    llm = ChatOpenAI(model="gpt-3.5-turbo-0613", temperature=0.2, max_tokens=512, streaming=True)
+    prompt = ChatPromptTemplate.from_messages([
+        MessagesPlaceholder(variable_name="chat_history"),
+        HumanMessagePromptTemplate.from_template("{human_input}")
+    ])
+    memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+
+    questions = [
+        "こんにちは",
+        f"{location}の観光名所を教えて",
+        f"この観光名所の{location}駅からの行き方は？"
+    ]
+    answers = []
+    for question in questions:
+        # Add to state
+        st.session_state[f"messages{key}"].append({
+            "role": "user",
+            "content": question
+        })
+        # run chatgpt
+        ans = await manual_run(panel, llm, prompt, memory, question)
+        # add to state
+        st.session_state[f"messages{key}"].append({
+            "role": "assistant",
+            "content": ans
+        })
+        answers.append(ans)
+    return answers
+
+async def task_factory(parameters):
+    tasks = []
+    for param in parameters:
+        t = asyncio.create_task(logic(*param))
+        tasks.append(t)
+    return await asyncio.gather(*tasks)
+
+def main():
+    if "messages1" not in st.session_state:
+        st.session_state.messages1 = []
+        st.session_state.messages2 = []
+
+    st.title("Multiple Streaming Chat")
+
+    column_left, column_right = st.columns(2)
+    button = st.button("Click to start chats")
+
+    with column_left:
+        for message in st.session_state.messages1:
+            with st.chat_message(message["role"]):
+                st.markdown(message["content"])
+
+    with column_right:
+        for message in st.session_state.messages2:
+            with st.chat_message(message["role"]):
+                st.markdown(message["content"])
+
+    if button:
+        parameters = [
+            ("東京", 1, column_left),
+            ("京都", 2, column_right)
+        ]
+
+        asyncio.run(task_factory(parameters))
+
+if __name__ == "__main__":
+    main()
+
+```
