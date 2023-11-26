@@ -357,3 +357,66 @@ if __name__ == "__main__":
     main()
 
 ```
+
+以下はシンプル版
+```python
+import asyncio
+from langchain.chat_models import ChatOpenAI
+from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate, MessagesPlaceholder
+from langchain.memory import ConversationBufferMemory
+import streamlit as st
+
+st.set_page_config(layout="wide")
+
+async def manual_run(panel, llm, prompt_template, memory, question):
+    message = prompt_template.format_prompt(
+        human_input=question, 
+        chat_history=memory.load_memory_variables({})["chat_history"]
+    )
+    with panel:
+        with st.chat_message("user"):
+            st.markdown(question)
+        with st.chat_message("assistant"):
+            container = st.empty()
+
+    response = ""
+    async for chunk in llm.astream(message):
+        response += chunk.content
+        container.markdown(response)
+
+    memory.save_context({"input": question}, {"output": response})
+    return response
+
+async def logic(panel):
+    llm = ChatOpenAI(model="gpt-3.5-turbo-0613", temperature=0.2, max_tokens=512, streaming=True)
+    prompt = ChatPromptTemplate.from_messages([
+        MessagesPlaceholder(variable_name="chat_history"),
+        HumanMessagePromptTemplate.from_template("{human_input}")
+    ])
+    memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
+
+    for message in st.session_state.messages:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+    if prompt_input := st.chat_input():
+        st.session_state.messages.append({
+            "role": "user",
+            "content": prompt_input
+        })
+        ans = await manual_run(panel, llm, prompt, memory, prompt_input)
+        st.session_state.messages.append({
+            "role": "assistant",
+            "content": ans
+        })
+
+def main():
+    st.title("Simple Chat with GPT")
+    asyncio.run(logic(st.container()))
+
+if __name__ == "__main__":
+    main()
+```
