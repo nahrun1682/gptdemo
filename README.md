@@ -183,3 +183,73 @@ echo "Starting Streamlit application..." ; poetry run streamlit run gptdemo/01_C
 echo "Starting FastAPI application..." ; poetry run gunicorn -w 4 -k uvicorn.workers.UvicornWorker fastapi_app.main:app --bind 0.0.0.0:8000 & ; \
 echo "Startup script completed."
 ```
+
+
+メモ　非同期処理
+import multiprocessing
+import time
+import os
+from dotenv import load_dotenv
+import streamlit as st
+
+from langchain.callbacks.base import BaseCallbackHandler
+from langchain.chat_models import ChatOpenAI
+from langchain.schema import ChatMessage
+
+# .envファイルの読み込み
+load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
+openai_api_key = os.environ["OPENAI_API_KEY"]
+
+class LLMWorker(multiprocessing.Process):
+    def __init__(self, openai_api_key, model_name, temperature, messages, **kwargs):
+        super().__init__(**kwargs)
+        self.openai_api_key = openai_api_key
+        self.model_name = model_name
+        self.temperature = temperature
+        self.messages = messages
+        self.response = multiprocessing.Queue(1)
+
+    def run(self):
+        llm = ChatOpenAI(openai_api_key=self.openai_api_key, model_name=self.model_name, temperature=self.temperature)
+        response = llm(self.messages)
+        self.response.put(response)
+
+def main():
+    st.title('🦜ChatGPT DEMO')
+
+    with st.sidebar:
+        st.header('設定')
+        with st.expander("モデル選択"):
+            model_name = st.radio(
+                "モデルを選択(1106が現在最新版):",
+                ("gpt-3.5-turbo", "gpt-4", "gpt-3.5-turbo-1106", "gpt-4-1106-preview"),
+                index=3
+            )
+        with st.expander("オプション設定"):
+            temperature = st.slider(
+                "Temperature(大きいほど正確、低いほどランダム):", 
+                min_value=0.0, max_value=1.0, value=1.0, step=0.1
+            )
+
+    if "messages" not in st.session_state:
+        st.session_state["messages"] = [ChatMessage(role="assistant", content="なんでも聞いてね")]
+
+    for msg in st.session_state.messages:
+        st.chat_message(msg.role).write(msg.content)
+
+    if prompt := st.chat_input():
+        st.session_state.messages.append(ChatMessage(role="user", content=prompt))
+        st.chat_message("user").write(prompt)
+
+        worker = LLMWorker(openai_api_key, model_name, temperature, st.session_state.messages, daemon=True)
+        worker.start()
+
+        while worker.is_alive():
+            time.sleep(0.1)
+
+        response = worker.response.get()
+        st.session_state.messages.append(ChatMessage(role="assistant", content=response.content))
+        worker.join()
+
+if __name__ == '__main__':
+    main()
