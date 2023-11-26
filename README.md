@@ -184,8 +184,9 @@ echo "Starting FastAPI application..." ; poetry run gunicorn -w 4 -k uvicorn.wor
 echo "Startup script completed."
 ```
 
-
+```python
 メモ　非同期処理
+
 import multiprocessing
 import time
 import os
@@ -253,3 +254,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+```
