@@ -138,6 +138,11 @@ poetry update
 ```bash
 #起動方法
 poetry run gunicorn -w 4 -k uvicorn.workers.UvicornWorker fastapi_app.main:app
+#確認は以下で
+http://localhost:8000/docs
+
+#api動作確認
+http://localhost:8000/items/1?q=test
 ```
 
 

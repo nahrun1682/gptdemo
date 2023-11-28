@@ -5,7 +5,8 @@ from email.mime.multipart import MIMEMultipart
 import os
 from dotenv import load_dotenv
 
-load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
+# .envファイルの読み込み
+load_dotenv(os.path.join(os.path.dirname(__file__), '..', '..', '.env'))
 gmail_password = os.environ["gmail_password"]
 
 # ユーザー入力用のフォームを作成
