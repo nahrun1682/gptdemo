@@ -58,18 +58,18 @@ async def logic(panel,ChatMessage):
         #     "role": "user",
         #     "content": prompt_input
         # })
-        st.session_state.messages.append(ChatMessage(role="user", content=prompt))
+        st.session_state.messages_async.append(ChatMessage(role="user", content=prompt_input))
         ans = await manual_run(panel, llm, prompt, memory, prompt_input)
-        st.session_state.messages.append(ChatMessage(role="assistant", content=ans))
+        st.session_state.messages_async.append(ChatMessage(role="assistant", content=ans))
         print(f'asyns ans:{ans}')
 
 def main():
     st.title("Simple Chat with GPT")
     
-    if "messages" not in st.session_state:
-        st.session_state["messages"] = [ChatMessage(role="assistant", content="なんでも聞いてね")]
+    if "messages_async" not in st.session_state:
+        st.session_state["messages_async"] = [ChatMessage(role="assistant", content="なんでも聞いてね")]
 
-    for msg in st.session_state.messages:
+    for msg in st.session_state.messages_async:
         st.chat_message(msg.role).write(msg.content)
         
     asyncio.run(logic(st.container(),ChatMessage))
