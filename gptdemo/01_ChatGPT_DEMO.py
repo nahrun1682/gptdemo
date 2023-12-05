@@ -15,6 +15,8 @@ logger = logging.getLogger(__name__)
 
 # .envファイルの読み込み
 load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
+openai_api_key = os.environ["OPENAI_API_KEY"]
+
 # dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env')
 # if os.path.exists(dotenv_path):
 #     load_dotenv(dotenv_path)
