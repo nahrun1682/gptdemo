@@ -15,18 +15,18 @@ logger = logging.getLogger(__name__)
 
 # .envファイルの読み込み
 dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env')
-if os.path.exists(dotenv_path):
-    load_dotenv(dotenv_path)
-else:
-    logger.error("環境設定ファイルが見つかりません。")
-    st.error("環境設定ファイルが見つかりません。")
-    st.stop()
+# if os.path.exists(dotenv_path):
+#     load_dotenv(dotenv_path)
+# else:
+#     logger.error("環境設定ファイルが見つかりません。")
+#     st.error("環境設定ファイルが見つかりません。")
+#     st.stop()
 
-openai_api_key = os.environ.get("OPENAI_API_KEY")
-if not openai_api_key:
-    logger.error("OpenAI API キーが設定されていません。")
-    st.error("OpenAI API キーが設定されていません。")
-    st.stop()
+# openai_api_key = os.environ.get("OPENAI_API_KEY")
+# if not openai_api_key:
+#     logger.error("OpenAI API キーが設定されていません。")
+#     st.error("OpenAI API キーが設定されていません。")
+#     st.stop()
 
 # Streamlitのセッションステートの初期化
 if "chat_log" not in st.session_state:
