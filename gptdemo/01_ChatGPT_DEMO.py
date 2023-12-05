@@ -14,7 +14,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 # .envファイルの読み込み
-dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env')
+load_dotenv(os.path.join(os.path.dirname(__file__), '..', '.env'))
+# dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env')
 # if os.path.exists(dotenv_path):
 #     load_dotenv(dotenv_path)
 # else:
