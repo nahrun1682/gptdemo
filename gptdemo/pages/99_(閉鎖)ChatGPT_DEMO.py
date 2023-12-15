@@ -14,7 +14,7 @@ st.set_page_config(layout="wide")
 
 #タイトルを表示
 st.title('🦜ChatGPT DEMO')
-st.subheader('まだmemory機能は未実装' )
+st.subheader('memory機能は未実装' )
 
 model_name = st.radio(label='モデルを選択してね',
                  options=('gpt-3.5-turbo', 'gpt-4'),

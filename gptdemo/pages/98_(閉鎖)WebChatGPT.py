@@ -17,7 +17,7 @@ load_dotenv(os.path.join(os.path.dirname(__file__), '...', '.env'))
 
 openai_api_key=os.environ["OPENAI_API_KEY"]
 
-st.subheader("WebChatGPT(デモ)&ストリーミング処理実験中")
+st.subheader("WebChatGPT&ストリーミング処理実験中")
                                   
 def get_state(): 
      if "state" not in st.session_state: 
