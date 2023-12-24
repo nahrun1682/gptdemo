@@ -38,7 +38,7 @@ llm = OpenAI()
 chat_model = ChatOpenAI()
 
 # Streamlit UI
-st.title("Company Name Generator for Colorful Socks")
+st.title("LangSmith Demo")
 
 # ユーザー入力を受け取る
 user_input = st.text_input("Enter a prompt:", "What would be a good company name for a company that makes colorful socks?")
