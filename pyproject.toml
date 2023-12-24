@@ -8,7 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 streamlit = "^1.26.0"
-langchain = "^0.0.285"
+langchain = "^0.0.333"
 openai = "^0.28.0"
 python-dotenv = "^1.0.0"
 azure-identity = "^1.14.0"
@@ -28,6 +28,7 @@ gunicorn = "^21.2.0"
 pillow = "^10.1.0"
 google-generativeai = "^0.3.1"
 langchain-google-genai = "^0.0.4"
+langserve = {extras = ["all"], version = "^0.0.37"}
 
 
 [build-system]

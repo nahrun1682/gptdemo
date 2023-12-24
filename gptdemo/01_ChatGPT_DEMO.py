@@ -33,7 +33,7 @@ openai_api_key = os.environ["OPENAI_API_KEY"]
 
 # Streamlitのセッションステートの初期化
 if "chat_log" not in st.session_state:
-    st.session_state.chat_log = []
+    st.session_state["chat_log"] = []
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = [ChatMessage(role="assistant", content="なんでも聞いてね")]
